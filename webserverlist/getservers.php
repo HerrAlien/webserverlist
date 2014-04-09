@@ -3,6 +3,8 @@
 
 $listOfServers = Array();
 
+// access the DB
+
 $listOfServers[] = new gameServerClass('127.0.0.1', 23);
 $listOfServers[] = new gameServerClass('127.0.0.1', 24);
 
