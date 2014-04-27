@@ -38,9 +38,9 @@ class serversDB
       }
   }
   
-  public static function getInstance()
+  public static function getInstance($game)
   {
-    $cache = new Memcached ("webseverlist-4F7ECB99-9216-40BA-BD3F-6879742D92C0");
+    $cache = new Memcached ($game."-webseverlist-4F7ECB99-9216-40BA-BD3F-6879742D92C0");
     $instance = $cache->get("serversDB");
     if ($instance === FALSE)
     {
