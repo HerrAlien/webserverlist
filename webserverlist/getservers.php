@@ -1,20 +1,22 @@
 <?php
 
-require_once "gameServerClass.php";
 require_once "inc/serversdb.php";
 
 $listOfServers = Array();
+if (isset($_REQUEST['game']))
+{
+    $game = $_REQUEST['game'];
 
-// access the DB
-$db = new serversDB();
-$listOfServers = $db->getServers();
-
-$listOfServers[] = new gameServerClass('127.0.0.1', 23);
-$listOfServers[] = new gameServerClass('127.0.0.1', 24);
+    $db = serversDB::getInstance ($game);
+    if ($db)
+    {
+      $listOfServers = $db->getServers ();
+    }
+}
 
 foreach ($listOfServers as $server)
 {
-    echo ('  '.$server->_ip.'  '.$server->_port . '
+    echo ($server. '
 ');
 }
 

@@ -5,6 +5,7 @@ class serversDB
 {
   private $m_timestampList;
   private $m_heartbeatTimeout;
+  private $m_game;
   
   private function __construct()
   {
@@ -36,6 +37,8 @@ class serversDB
           if($deadTime >= $this->m_timestampList[$i])
             unset ($this->m_timestampList[$i]);
       }
+      
+      $this->saveInstance();
   }
   
   public static function getInstance($game)
@@ -45,9 +48,16 @@ class serversDB
     if ($instance === FALSE)
     {
       $instance = new serversDB();
+      $instance->m_game = $game;
       $cache->set("serversDB", $instance);
     }
     return $instance;
+  }
+  
+  private function saveInstance()
+  {
+    $cache = new Memcached ($this->m_game."-webseverlist-4F7ECB99-9216-40BA-BD3F-6879742D92C0");
+    $cache->set("serversDB", $this);
   }
   
 }
