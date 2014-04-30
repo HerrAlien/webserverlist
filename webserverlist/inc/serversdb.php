@@ -15,7 +15,7 @@ class serversDB
   public function tickServer($ip, $port)
   {
     $key = $ip." ".$port;
-    $this->m_timestampList[key] = date("U");
+    $this->m_timestampList[$key] = date("U");
     echo "saving ".$key." ...<br>";
 
     echo count($this->m_timestampList)." servers <br>";
