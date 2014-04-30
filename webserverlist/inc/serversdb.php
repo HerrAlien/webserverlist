@@ -15,14 +15,9 @@ class serversDB
   
   public function tickServer($ip, $port)
   {
-    $key = $ip." ".$port;
+    $key = $ip.":".$port;
     $this->m_timestampList[$key] = date("U");
-    echo "saving ".$key." ...<br>";
-
-    echo count($this->m_timestampList)." servers <br>";
-    
     $this->cleanDeadServers();
-    echo count($this->m_timestampList)." servers after clean <br>";
   }
   
   // unset to delete
@@ -37,10 +32,11 @@ class serversDB
       $currentTime = date("U");
       $deadTime = $currentTime - $this->m_heartbeatTimeout;
       $len = count ($this->m_timestampList);
+      $keys = array_keys($this->m_timestampList);
       for ($i = $len - 1; $i >=0; $i--)
       {
-          if($deadTime >= $this->m_timestampList[$i])
-            unset ($this->m_timestampList[$i]);
+          if($deadTime >= $this->m_timestampList[$keys[$i]])
+            unset ($this->m_timestampList[$keys[$i]]);
       }
       $this->save();
   }
@@ -51,11 +47,9 @@ class serversDB
     $instance = $cache->get("serversDB");
     if ($instance === FALSE)
     {
-        echo 'did not find "serversDB", creating one<br>';
-      $instance = new serversDB();
+        $instance = new serversDB();
         $instance->m_game = $game;
-      $saved = $cache->set("serversDB", $instance);
-        echo 'saved='.$saved.'<br>';
+        $saved = $cache->set("serversDB", $instance);
     }
     return $instance;
   }
