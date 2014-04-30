@@ -5,6 +5,7 @@ class serversDB
 {
   private $m_timestampList;
   private $m_heartbeatTimeout;
+  private $m_game;
   
   private function __construct()
   {
@@ -52,6 +53,7 @@ class serversDB
     {
         echo 'did not find "serversDB", creating one<br>';
       $instance = new serversDB();
+        $instance->m_game = $game;
       $saved = $cache->set("serversDB", $instance);
         echo 'saved='.$saved.'<br>';
     }
@@ -60,7 +62,7 @@ class serversDB
   
   private function save()
   {
-    $cache = new Memcached ($game."-webseverlist-4F7ECB99-9216-40BA-BD3F-6879742D92C0");
+    $cache = new Memcached ($this->m_game."-webseverlist-4F7ECB99-9216-40BA-BD3F-6879742D92C0");
     $cache->set("serversDB", $this);
   }
   
