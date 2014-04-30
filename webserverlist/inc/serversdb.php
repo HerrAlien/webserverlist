@@ -41,23 +41,33 @@ class serversDB
       $this->save();
   }
   
+  private static function getCache($game)
+  {
+      return new Memcached ($game."-webseverlist-4F7ECB99-9216-40BA-BD3F-6879742D92C0");
+  }
+  
+  private static function getServerDBKey()
+  {
+      return "serversDB";
+  }
+  
   public static function getInstance($game)
   {
-    $cache = new Memcached ($game."-webseverlist-4F7ECB99-9216-40BA-BD3F-6879742D92C0");
-    $instance = $cache->get("serversDB");
+    $cache = serversDB::getCache($game);
+    $instance = $cache->get(serversDB::getServerDBKey());
     if ($instance === FALSE)
     {
         $instance = new serversDB();
         $instance->m_game = $game;
-        $saved = $cache->set("serversDB", $instance);
+        $saved = $cache->set(serversDB::getServerDBKey(), $instance);
     }
     return $instance;
   }
   
   private function save()
   {
-    $cache = new Memcached ($this->m_game."-webseverlist-4F7ECB99-9216-40BA-BD3F-6879742D92C0");
-    $cache->set("serversDB", $this);
+    $cache = serversDB::getCache($this->m_game);
+    $cache->set(serversDB::getServerDBKey(), $this);
   }
   
 }
