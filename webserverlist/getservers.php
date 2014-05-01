@@ -1,4 +1,6 @@
 <?php
+header('Content-type: text/plain');
+
 
 require_once "inc/serversdb.php";
 
@@ -19,4 +21,5 @@ foreach ($listOfServers as $server)
     echo ($server. '
 ');
 }
+
 

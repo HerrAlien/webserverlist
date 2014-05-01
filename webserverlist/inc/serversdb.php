@@ -9,21 +9,21 @@ class serversDB
   
   private function __construct()
   {
-    $this->m_timestampList = new array();
+    $this->m_timestampList = array();
     $this->m_heartbeatTimeout = 1800; // in seconds, 30 minutes
   }
   
   public function tickServer($ip, $port)
   {
     $key = $ip.":".$port;
-    $this->m_timestampList[key] = date("U");
-    $this->cleanDeadServers()
+    $this->m_timestampList[$key] = date("U");
+    $this->cleanDeadServers();
   }
   
   // unset to delete
   public function getServers()
   {
-    $this->cleanDeadServers()
+    $this->cleanDeadServers();
     return array_keys($this->m_timestampList);
   }
   
@@ -32,32 +32,42 @@ class serversDB
       $currentTime = date("U");
       $deadTime = $currentTime - $this->m_heartbeatTimeout;
       $len = count ($this->m_timestampList);
+      $keys = array_keys($this->m_timestampList);
       for ($i = $len - 1; $i >=0; $i--)
       {
-          if($deadTime >= $this->m_timestampList[$i])
-            unset ($this->m_timestampList[$i]);
+          if($deadTime >= $this->m_timestampList[$keys[$i]])
+            unset ($this->m_timestampList[$keys[$i]]);
       }
-      
-      $this->saveInstance();
+      $this->save();
+  }
+  
+  private static function getCache($game)
+  {
+      return new Memcached ($game."-webseverlist-4F7ECB99-9216-40BA-BD3F-6879742D92C0");
+  }
+  
+  private static function getServerDBKey()
+  {
+      return "serversDB";
   }
   
   public static function getInstance($game)
   {
-    $cache = new Memcached ($game."-webseverlist-4F7ECB99-9216-40BA-BD3F-6879742D92C0");
-    $instance = $cache->get("serversDB");
+    $cache = serversDB::getCache($game);
+    $instance = $cache->get(serversDB::getServerDBKey());
     if ($instance === FALSE)
     {
-      $instance = new serversDB();
-      $instance->m_game = $game;
-      $cache->set("serversDB", $instance);
+        $instance = new serversDB();
+        $instance->m_game = $game;
+        $saved = $cache->set(serversDB::getServerDBKey(), $instance);
     }
     return $instance;
   }
   
-  private function saveInstance()
+  private function save()
   {
-    $cache = new Memcached ($this->m_game."-webseverlist-4F7ECB99-9216-40BA-BD3F-6879742D92C0");
-    $cache->set("serversDB", $this);
+    $cache = serversDB::getCache($this->m_game);
+    $cache->set(serversDB::getServerDBKey(), $this);
   }
   
 }
