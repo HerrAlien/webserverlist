@@ -13,6 +13,11 @@ class serversDB
     $this->m_heartbeatTimeout = 1800; // in seconds, 30 minutes
   }
   
+  public function getHeartbeatTimeout()
+  {
+    return $this->m_heartbeatTimeout;
+  }
+  
   public function tickServer($ip, $port)
   {
     $key = $ip.":".$port;
