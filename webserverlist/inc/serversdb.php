@@ -53,6 +53,8 @@ class serversDB
             unset ($this->m_timestampList[$key]);
       }
       
+      unset ($keys);
+      
       $len = count ($this->m_timestampList);
       
       if ($len >= $this->m_nMaxServers)
@@ -81,21 +83,23 @@ class serversDB
     
     // remove legit IPs, leave only the offenders
     $keys = array_keys ($counts);
-    $len = count ($counts);
-    for ($i = $len - 1; $i >= 0; $i--)
+    foreach ($keys as $key)
     {
-        if ($this->m_nMaxServersPerIP >= $counts[$keys[$i]])
-            unset ($counts[$keys[$i]]);
+        if ($this->m_nMaxServersPerIP >= $counts[$key])
+            unset ($counts[$key]);
     }
     
     $keys = array_keys($this->m_timestampList);
     $offenders = array_keys ($counts);
+    unset ($counts);
     foreach ($keys as $key)
     {
         $ip = serversDB::getIPFromServerKey ($key);
         if (in_array($ip, $offenders))
           unset ($this->m_timestampList[$key]);
     }
+    unset ($keys);
+    unset ($offenders);
   }
   
   private static function getIPFromServerKey($key)
