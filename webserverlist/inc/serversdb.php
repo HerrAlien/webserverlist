@@ -78,7 +78,7 @@ class serversDB
         if (!isset($counts[$ip]))
             $counts[$ip] = 1;
         else
-            $counts[$ip]++
+            $counts[$ip]++;
     }
     
     // remove legit IPs, leave only the offenders
