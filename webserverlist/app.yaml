@@ -1,7 +1,7 @@
 application: webserverlist
 version: 1
 runtime: php
-api_version: 1
+api_version: 2
 threadsafe: yes
 
 handlers:
