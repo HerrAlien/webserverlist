@@ -1,6 +1,6 @@
 <?php
+$time_pre = microtime(true);
 header('Content-type: text/plain');
-
 
 require_once "inc/serversdb.php";
 
@@ -22,4 +22,7 @@ foreach ($listOfServers as $server)
 ');
 }
 
+$time_end = microtime(true);
+echo '
+'.($time_end - $time_pre - 1).' useconds';
 

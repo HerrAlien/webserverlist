@@ -1,4 +1,5 @@
 <?php
+$time_pre = microtime(true);
 header('Content-type: text/plain');
 
 require_once "inc/serversdb.php";
@@ -19,3 +20,6 @@ if (isset($_REQUEST['game']) && isset($_REQUEST['port']))
     
     echo $timeout;
 }
+$time_end = microtime(true);
+echo '
+'.($time_end - $time_pre - 1).' useconds';
