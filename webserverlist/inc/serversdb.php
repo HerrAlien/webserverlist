@@ -106,7 +106,9 @@ class serversDB
   {
     $ip = $key;
     // key is in form ip1.ip2.ip3.ip4:port
-    $colonPos = strpos($key, ":");
+    // for IPv6 key could be in v61:v61: ... :port
+    // so search for the last occurence
+    $colonPos = strrpos ($key, ":");
     if ($colonPos > 0)
         $ip = substr ($key, 0, $colonPos);
     return $ip;
