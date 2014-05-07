@@ -1,5 +1,5 @@
 application: webserverlist
-version: 0.1
+version: 1
 runtime: php
 api_version: 1
 threadsafe: yes
