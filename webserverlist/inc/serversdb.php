@@ -7,7 +7,6 @@ class serversDB
   private $m_heartbeatTimeout;
   private $m_game;
   private $m_nMaxServers;
-  private $m_nSleepBetweenRequests;
   private $m_nMaxServersPerIP;
   
   private function __construct()
@@ -16,7 +15,6 @@ class serversDB
     // config time ...
     $this->m_heartbeatTimeout = 1800; // in seconds, 30 minutes
     $this->m_nMaxServers = 256;
-    $this->m_nSleepBetweenRequests = 1;
     $this->m_nMaxServersPerIP = 24;
   }
   
@@ -42,8 +40,6 @@ class serversDB
   private function cleanDeadServers()
   {
       $currentTime = date("U");
-      
-      sleep ($this->m_nSleepBetweenRequests);
       
       $deadTime = $currentTime - $this->m_heartbeatTimeout;
       $keys = array_keys($this->m_timestampList);
