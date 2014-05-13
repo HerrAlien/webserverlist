@@ -54,8 +54,8 @@ class QOSManager
             $this->m_lastCoolTimestamp = $currentTime; // we're cool
       $this->save();
       
-      // return TRUE if we're cool 
-      return $this->m_lastCoolTimestamp != $currentTime;
+      // return TRUE if we're hot 
+      return $this->m_lastHotTimestamp == $currentTime;
     }
 
   ////// TODO: refactor this and also serversDB ////////
