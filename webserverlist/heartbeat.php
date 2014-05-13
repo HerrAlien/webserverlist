@@ -1,5 +1,8 @@
 <?php
 // $time_pre = microtime(true);
+// mandatory
+require_once "inc/qos.php";
+
 header('Content-type: text/plain');
 
 require_once "inc/serversdb.php";
