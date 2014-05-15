@@ -14,13 +14,12 @@ if (isset($_REQUEST['game']) && isset($_REQUEST['port']))
     
     $ip = $_SERVER['REMOTE_ADDR'];
     $db = serversDB::getInstance ($game);
+    if (!$db)
+        die();
+
     $timeout = 1800;
-    if ($db)
-    {
-      $db->tickServer ($ip, $port);
-      $timeout = $db->getHeartbeatTimeout();
-    }
-    
+    $db->tickServer ($ip, $port);
+    $timeout = $db->getHeartbeatTimeout();
     echo $timeout;
 }
 /* 

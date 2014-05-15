@@ -14,16 +14,15 @@ if (isset($_REQUEST['game']))
     $game = $_REQUEST['game'];
 
     $db = serversDB::getInstance ($game);
-    if ($db)
-    {
-      $listOfServers = $db->getServers ();
-    }
-}
+    if (!$db)
+        die();
 
-foreach ($listOfServers as $server)
-{
-    echo ($server. '
+    $listOfServers = $db->getServers ();
+    foreach ($listOfServers as $server)
+    {
+        echo ($server. '
 ');
+    }
 }
 
 /* 
