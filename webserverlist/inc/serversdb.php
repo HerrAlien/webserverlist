@@ -3,6 +3,7 @@
 // memcached based
 class serversDB
 {
+  private static $m_allowedGames = {"avp2"};
   private $m_timestampList;
   private $m_heartbeatTimeout;
   private $m_game;
@@ -122,6 +123,9 @@ class serversDB
   
   public static function getInstance($game)
   {
+    if (!in_array($game, serversDB::m_allowedGames))
+        return FALSE;
+        
     $cache = serversDB::getCache($game);
     $instance = $cache->get(serversDB::getServerDBKey());
     if ($instance === FALSE)
